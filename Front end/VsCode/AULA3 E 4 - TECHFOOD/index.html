@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/styles/index.css">
+    <title>AULA 3</title>
+</head>
+<body>
+
+    <header id="topo_loja">
+        <h1>TechFood - Sabor e Saber</h1>
+        <p id="boas-vindas">Carregando...</p>
+        <p id="nome">Seu nome aqui!</p>
+
+        <!--MENU HAMBURGUER-->
+        <input type="checkbox" id="bt_menu"> <!-- caixa de seleção que pode checar varios -->
+        <label for="bt_menu" id="label_menu">&#9776;</label> <!-- texto que acompanha -->
+
+        <nav id="menu">
+            <ul>
+                <li><a href="#secao-massas">Massas</a></li>
+                <li><a href="#secao-sobremesas">Sobremesas</a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <main>
+        <section id="secao-massas">
+            <h2 class="titulo-secao">Nossas massas</h2>
+
+            <div class="vitrine-grid">
+                <article class="card" id="card-lasanha">
+                    <img src="src\image\lasanha.png" alt="Lasanha Tech" id="foto-destaque">
+                    <h3>Lasanha a bolonhesa</h3>
+                    <p class="desc">Massa artesanal e molho especial</p>
+                    <div class="quantidade">
+                        <label for="qtd-lasanha"></label>
+                        <input type="number" id="qtd-lasanha" value="1" min="1">
+                    </div>
+                    <span class="preco">R$ 45,00</span>
+                    <button class="bt_pedido">Pedir Agora</button>
+                </article>
+
+                <article id="card-nhoque" class="card">
+                    <img src="src\image\nhoque.png" alt="Nhoque de pesto">
+                    <h3>Nhoque de pesto</h3>
+                    <p class="desc">Massa artesanal e molho especial</p>
+                    <span class="preco">R$ 35,00</span>
+                    <button class="bt_pedido">Pedir Agora</button>
+                </article>
+
+                <article class="card">
+                    <img src="src\image\espaguete.png" alt="Espaguete">
+                    <h3>Espaguete a bolonhesa</h3>
+                    <p class="desc">Massa artesanal e molho especial</p>
+                    <span class="preco">R$ 15,00</span>
+                    <button class="bt_pedido">Pedir Agora</button>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="secao-sobremesas">
+            <h2 class="titulo-secao">Nossas sobremesas</h2>
+
+            <div class="vitrine-grid">
+                <article class="card">
+                    <img src="src\image\pudim.png" alt="Pudim de leite">
+                    <h3>Pudim de leite</h3>
+                    <p class="desc">Receita especial da casa</p>
+                    <span class="preco">R$ 15,00</span>
+                    <button class="bt_pedido">Pedir Agora</button>
+                </article>
+
+                <article class="card">
+                    <img src="src\image\brownie.png" alt="Brownie com sorvete de chocolate">
+                    <h3>Brownie com sorvete de chocolate</h3>
+                    <p class="desc">Especial da casa</p>
+                    <span class="preco">R$ 20,00</span>
+                    <button class="bt_pedido">Pedir Agora</button>
+                </article>
+
+                <article class="card">
+                    <img src="src\image\torta.png" alt="Torta de limão">
+                    <h3>Torta de limão</h3>
+                    <p class="desc">Crocante e refrescante</p>
+                    <span class="preco">R$ 15,00</span>
+                    <button class="bt_pedido">Pedir Agora</button>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <footer id="rodape">
+        <div class="info-footer">
+            <p><strong>Techfood 2026 &#169;</strong></p>
+            <p> Rua das guloseimas 77, Jd.Comilança - Salto </p>
+        </div>
+    </footer>
+    <!-- <script src="src/scripts aula4/aula4.js"></script> -->
+    <!-- <script src="src/script aula5/antigo.js"></script> -->
+    <script src="src/script aula5/novo.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,77 @@
+IOT
+- APRESENTAÇÕES
+    - Smart Home
+        - projeto eazy
+        - controlar dispositivos
+        - rasppbery pi: controla os dispositivos
+        - controlador
+        - comunicação sem fio
+        - java script: node js, servidor web, possibilita comunicação
+        - lua : gerencia a automação residencial
+        - python: comunicação entre rede e dispositivo
+        - css: definir identidade visual
+        - shell
+        - conectividade tipos:
+            - conectividade de rede
+            - conectividade com dispotivos
+            - conectividade interna
+        - dados são mostrados na web
+        
+    - Sistema de monitoramento de uma malha elétrica produtiva
+        - obj final: desenvolver um sistema para monitorar o consumo
+        - lista: microcontroladores, processadores comuns, família stm32
+        - linguagem: c++: linguagem copilada
+        - conectividades: envia dados do sensores pro sistema central que é variado seguindo o consumo
+        - onde os dados são mostrados: influir DB
+        
+    - Monitoramento de máquinas industriais
+        - Acompanhamento continuo e em tempo real do desempenho de ativos, prática da indústria 4.0 (prever falhas antes que ocorram);
+        - Projetado para coletar e processar dados essenciais;
+        - NodeMCU (plataforma de código aberto), sensor de vibração e sensor de temperatura e o GY-521;
+        - Linguagens de Programação: Lua, C++, Node + JavaScript;
+        - Os dados são mostrados: IDE do Arduíno, interface Web para usuários e uma tabela .csv.
+    - Agrotech
+        - obj: analisar o vigor das plantas auxiliando na aplicação eficiente de fertilizante
+        - prob: uso excessivo de fertilizantes
+        - funcionamento: sensor mede o estado da planta e manda a informação pro tratamento eletrônico. Sensor inteligente: mede a saúde da planta
+        - Trator: utiliza um sensor que tem sua própria luz que reflete nas plantas enquanto ele anda,
+        - drone: monitoramento do campo
+        - linguagem: c++: receba os dados e envia eles para o servidor
+        - onde os dados são mostrados: dentro da cabine de monitoramento
+    - PineTime
+        - Problemas: ataques cardíacos em momentos de esportes
+        - solução: relógio inteligente com código aberto e baixo custo
+        - o que faz: controla batimentos, conta passos, conectado com o celular e aprova da água
+        - linguqgem: c++
+    - Câmera Inteligente
+        - ed ia
+        - introduzir a ia nos equipamentos
+        - autonomia que permite que o sistema opere sem intervenção humana constante
+        - detecção noturna
+        - processador em tempo real
+        - utiliza algoritmos de ita para diferencias pessoas e objetos
+        - linguagens: http, java script, c++ e rest
+        - utilizado em casas e ruas
+        - alertas inteligentes, histórico de gravação e monitoramento continuo
+        - os dados são mostrados em dashboards
+        - importância: reconhecimento de pessoas e rastreamento automático
+    - IOT para logística
+        - Life box
+        - obj: garantir um transporte seguro para órgãos e tecidos no transplante
+        - otimização de transporte de órgãos
+        - órgão chega no estado perfeito
+        - linguagens: python
+        - conectividade: wifi
+        - os dados são mostrados em dispositivos móveis
+    - Glassouse
+        - Produto inteligente de interação Humano Computador
+        - Substituir periféricos tradicionais
+        - Necessário mover uma parte do corpo para funcionar
+        - soluciona problemas críticos de acessibilidade e desempenho
+        - Microcontrolador com o processador 32-bit ARM Cortex-M4 NXP-Freescale MK20DX256VLH7
+        - Microprocessador InteL Core i5-6300U externo
+        - Sensor Acelerômetro
+        - Sensor Giroscópio
+        - **Sensor Magnetômetro**
+        - linguagem: C e C#
+        - USB e Bluetooth

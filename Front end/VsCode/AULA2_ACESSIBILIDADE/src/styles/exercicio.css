@@ -1,0 +1,71 @@
+/* Reset básico: remove margens e espaçamentos padrão,
+   ajusta o box model e define uma fonte padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* Estilo do cabeçalho principal do site */
+#cabecalho-eco {
+    background-color: #1b5e20; /* Verde escuro ecológico */
+    color: white;              /* Texto branco para contraste */
+    padding: 20px;             /* Espaçamento interno */
+    text-align: center;        /* Centraliza o conteúdo */
+}
+
+/* Estilo dos links de navegação */
+.link-nav {
+    color: white;              /* Cor do texto */
+    text-decoration: none;     /* Remove sublinhado padrão */
+    margin: 0 10px;            /* Espaçamento horizontal entre links */
+    padding: 5px;              /* Área clicável maior */
+    border-radius: 4px;        /* Cantos levemente arredondados */
+}
+
+/* ACESSIBILIDADE:
+   Feedback visual quando o link ou botão é focado via teclado (Tab) */
+.link-nav:focus,
+.btn-leitura:focus {
+    outline: 4px solid #f1c40f; /* Amarelo vivo para alto contraste */
+    outline-offset: 2px;       /* Afasta o contorno do elemento */
+}
+
+/* Card que contém cada notícia */
+.card-noticia {
+    width: 320px;              /* Largura fixa do card */
+    border: 2px solid #2e7d32; /* Borda verde */
+    padding: 15px;             /* Espaçamento interno */
+    margin: 20px auto;         /* Centraliza horizontalmente */
+}
+
+/* Ajuste da imagem dentro do card */
+.card-noticia img {
+    max-width: 100%;           /* Não ultrapassa a largura do card */
+    height: auto;              /* Mantém proporção da imagem */
+}
+
+/* Título da notícia */
+.card-noticia h2 {
+    color: #1b5e20;            /* Verde consistente com o tema */
+    margin: 10px 0;            /* Espaçamento vertical */
+}
+
+/* Texto descritivo da notícia */
+.card-noticia p {
+    color: #333;               /* Cinza escuro para melhor contraste */
+    line-height: 1.6;          /* Facilita a leitura (acessibilidade) */
+    margin-bottom: 15px;       /* Espaço antes do botão */
+}
+
+/* Botão "Leia Mais" */
+.btn-leitura {
+    background-color: #1b5e20; /* Verde principal do site */
+    color: white;              /* Texto branco */
+    padding: 10px;             /* Espaçamento interno */
+    border: none;              /* Remove borda padrão */
+    cursor: pointer;           /* Cursor de ação */
+    width: 100%;               /* Ocupa toda a largura do card */
+    font-weight: bold;         /* Destaque no texto */
+}
