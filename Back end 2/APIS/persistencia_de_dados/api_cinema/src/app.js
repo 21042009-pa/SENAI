@@ -221,8 +221,8 @@ app.get('/salas', async (req,res) => {
 
         res.json({
             sucesso: true,
-            dados: filmes,
-            total: filmes.length
+            dados: sala,
+            total: sala.length
         })
     }catch (erro){
         console.error('Erro ao listar salas:', erro)
@@ -402,5 +402,147 @@ app.delete('/salas/:id', async (req,res) =>{
         })
     }
 })
+
+
+
+
+
+app.get('/sessao', async (req,res) => {
+    try {
+        const sessao = await queryAsync('SELECT * FROM sessao')
+
+        res.json({
+            sucesso: true,
+            dados: sessao,
+            total: sessao.length
+        })
+    }catch (erro){
+        console.error('Erro ao listar sessao:', erro)
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao sessao ingressos',
+            erro: erro.message
+        })
+    }
+})
+
+app.get('/sessao/:id', async(req,res) => {
+    try {
+        const {id} = req.params
+
+        if(!id || isNaN(id)){
+            return res.status(400).json({
+            sucesso: false,
+            mensagem: 'ID de sessao inválido'
+            })
+        }
+
+        const sessao = await queryAsync('SELECT * FROM sessao WHERE id = ?', [id])
+
+        if (sessao.length === 0){
+            return res.status(404).json({
+                sucesso:false,
+                mensagem:'sassao não encontrado'
+            })
+        }
+
+        res.json({
+            sucesso:true,
+            dados: sessao[0]
+        })
+
+    } catch (erro) {
+        console.error('Erro ao listar sessao:', erro)
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao listar sessao',
+            erro: erro.message
+        })
+    }
+})
+
+app.post('/sessao', async(req,res) =>{
+    try {
+        const {filme_id, sala_id, data_hora, preco} = req.body
+
+        if(!filme_id || isNaN(filme_id)){
+            return res.status(400).json({
+            sucesso: false,
+            mensagem: 'ID de filme inválido'
+            })
+        }
+
+        const filme = await queryAsync('SELECT * FROM filme WHERE id = ?', [filme_id])
+
+        if (filme.length === 0){
+            return res.status(404).json({
+                sucesso:false,
+                mensagem:'filme não encontrado'
+            })
+        }
+
+        res.json({
+            sucesso:true,
+            dados: filme[0]
+        })
+
+        if(!sala_id || isNaN(sala_id)){
+            return res.status(400).json({
+            sucesso: false,
+            mensagem: 'ID de sala inválido'
+            })
+        }
+
+        const sala = await queryAsync('SELECT * FROM sala WHERE id = ?', [sala_id])
+
+        if (sala.length === 0){
+            return res.status(404).json({
+                sucesso:false,
+                mensagem:'sala não encontrado'
+            })
+        }
+
+        res.json({
+            sucesso:true,
+            dados: sala[0]
+        })
+
+        if(!filme_id || !sala_id || !data_hora || !preco){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'os dados são obrigatórios são obrigatórios'
+            })
+        }
+
+        if(typeof preco !== 'number' || preco <= 0 ){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'data e hora deve ser um número positivo.'
+            })
+        }
+
+        const novoSessao = {
+            filme_id,
+            sala_id,
+            data_hora,
+            preco,
+        }
+
+        const resultado = await queryAsync('INSERT INTO sessao SET ?',[novoSessao])
+
+        res.status(201).json({
+            sucesso: true,
+            mensagem: 'sessao cadastrada com sucesso.',
+            id: resultado.insertId
+        })
+    } catch (erro) {
+        console.error('Erro ao salvar sessao:', erro)
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao salvar sessao.',
+            erro: erro.message
+        })
+    }
+} )
 
 module.exports = app
