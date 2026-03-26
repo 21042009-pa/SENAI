@@ -9,3 +9,4 @@ CREATE TABLE IF NOT EXISTS produto (
     preco DECIMAL(10, 2) NOT NULL,
     disponivel BOOLEAN NOT NULL
 );
+
