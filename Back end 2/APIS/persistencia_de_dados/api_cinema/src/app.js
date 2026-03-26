@@ -464,6 +464,26 @@ app.get('/sessao/:id', async(req,res) => {
 app.post('/sessao', async(req,res) =>{
     try {
         const {filme_id, sala_id, data_hora, preco} = req.body
+        if(!filme_id || !sala_id || !data_hora || !preco){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'os dados são obrigatórios são obrigatórios'
+            })
+        }
+
+        if(typeof preco !== 'number' || preco <= 0 ){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'preco deve ser um número positivo.'
+            })
+        }
+
+        const novoSessao = {
+            filme_id,
+            sala_id,
+            data_hora,
+            preco,
+        }
 
         if(!filme_id || isNaN(filme_id)){
             return res.status(400).json({
@@ -481,18 +501,6 @@ app.post('/sessao', async(req,res) =>{
             })
         }
 
-        res.json({
-            sucesso:true,
-            dados: filme[0]
-        })
-
-        if(!sala_id || isNaN(sala_id)){
-            return res.status(400).json({
-            sucesso: false,
-            mensagem: 'ID de sala inválido'
-            })
-        }
-
         const sala = await queryAsync('SELECT * FROM sala WHERE id = ?', [sala_id])
 
         if (sala.length === 0){
@@ -500,32 +508,6 @@ app.post('/sessao', async(req,res) =>{
                 sucesso:false,
                 mensagem:'sala não encontrado'
             })
-        }
-
-        res.json({
-            sucesso:true,
-            dados: sala[0]
-        })
-
-        if(!filme_id || !sala_id || !data_hora || !preco){
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: 'os dados são obrigatórios são obrigatórios'
-            })
-        }
-
-        if(typeof preco !== 'number' || preco <= 0 ){
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: 'data e hora deve ser um número positivo.'
-            })
-        }
-
-        const novoSessao = {
-            filme_id,
-            sala_id,
-            data_hora,
-            preco,
         }
 
         const resultado = await queryAsync('INSERT INTO sessao SET ?',[novoSessao])
