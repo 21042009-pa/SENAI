@@ -12,12 +12,14 @@ import Exercicio07 from './exercicos_prova/7';
 import Exercicio08 from './exercicos_prova/8';
 import Exercicio09 from './exercicos_prova/9';
 import Exercicio10 from './exercicos_prova/10';
+import Ex1 from './prova_somativa/1';
+import Ex2 from './prova_somativa/2';
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Exercicio09/>
+      <Ex2/>
     </View>
   
   );
