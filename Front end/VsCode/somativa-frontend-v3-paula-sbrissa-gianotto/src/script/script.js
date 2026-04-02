@@ -59,7 +59,7 @@ const numero = document.querySelector('#idade-humana')
 
 reset.addEventListener('click', function(){
     letra.value = ""
-    numero.textContent = 0
+    numero = 0
 
 })
 
