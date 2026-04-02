@@ -1,3 +1,7 @@
+const imagem_pet = document.querySelector('.img-produto')//mudar a foto do perfil
+
+imagem_pet.src = 'src/img/pet.png'
+
 //1
 
 const saudacao = document.querySelector('#saudacao-voluntario')
