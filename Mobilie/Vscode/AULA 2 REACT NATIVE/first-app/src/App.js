@@ -7,14 +7,13 @@ import CardProduto from './props/ex1';
 import CartaoUsuario from './props/ex2';
 import PerfilAluno from './props/ex3';
 import Botao from './props/desafio';
+import Example from './hook/hook pesquisa';
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Botao titulo="Entrar"></Botao>
-      <Botao titulo="Sair"></Botao>
-      <Botao titulo="Cadastrar"></Botao>
+      <Example/>
     </View>
   
   );
