@@ -202,4 +202,65 @@ function adicionarItemAoResumo(nome, qtd, preco, cardOrigem){
 
     // Adiciona uma classe ao botão para estilização
     btnRemover.classList.add("btn-remover")
+
+    //Ação de remover
+    // Quando o botão de remover é clicado
+    btnRemover.addEventListener("click", () => {
+
+    // Remove o item da lista (li)
+        itemLi.remove()
+
+    // Procura um badge (tipo um selo/indicador) dentro do card de origem
+        const badge = cardOrigem.querySelector(".badge-adicionado")
+
+    // Se existir o badge, remove ele
+        if(badge) badge.remove()
+    
+    // Se não houver mais itens na lista de resumo
+        if(listaResumo.children.length === 0){
+        // Esconde a seção de resumo
+            secaoResumo.style.display = "none"
+        }
+})
+
+// Adiciona o texto dentro do item da lista
+itemLi.appendChild(textoSpan)
+
+// Adiciona o botão de remover dentro do item
+itemLi.appendChild(btnRemover)
+
+// Adiciona o item completo na lista de resumo
+listaResumo.appendChild(itemLi)
 }
+
+// Seleciona o botão de limpar
+const bntLimpar = document.querySelector("#btn-limpar")
+
+// Verifica se o botão existe na página
+if(bntLimpar){
+
+    // Adiciona um evento de clique no botão
+    bntLimpar.addEventListener("click", () =>{
+
+        // Seleciona a lista de resumo e a seção de resumo
+        const listaResumo = document.querySelector("#lista-resumo")
+        const secaoResumo = document.querySelector("#secao-resumo")
+
+        // Remove todos os badges (indicadores visuais)
+        document.querySelectorAll(".badge-adicionado").forEach((b) => b.remove())
+
+        // Enquanto existir algum item na lista
+        while(listaResumo.firstElementChild){
+            // Remove o primeiro item (até esvaziar tudo)
+            listaResumo.firstElementChild.remove()
+        }
+
+        // Esconde a seção de resumo
+        secaoResumo.style.display = "none"
+    })
+}
+
+
+
+
+
