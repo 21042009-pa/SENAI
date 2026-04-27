@@ -1,19 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Recados from './hooks/exercicio';
 
 
-import CartaoPerfil from './props/props';
-import CardProduto from './props/ex1';
-import CartaoUsuario from './props/ex2';
-import PerfilAluno from './props/ex3';
-import Botao from './props/desafio';
-import Example from './hook/hook pesquisa';
+
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Example/>
+      <Recados/>
     </View>
   
   );
