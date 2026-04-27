@@ -55,8 +55,8 @@ export default function Recados() {
     const [recado, setRecado] = useState("")
     const [enviar, setEnviar] = useState("")
     function handleEnviar(){
-        setEnviar(recado)
-        setRecado('')
+        setEnviar(recado) /*pega o valor e salva em enviar */
+        setRecado('')/*limpa o campo de texto */
     }
 
     return (
@@ -64,16 +64,16 @@ export default function Recados() {
       <Text style={styles.titulo}>📝 Recados</Text>
       <TextInput
         style={styles.input}
-        placeholder="Digite sua mensagem..."
+        placeholder="Digite sua mensagem..." /*conteudo temporario na caixa para escrever */
         value={recado}
-        onChangeText={recado => setRecado(recado)}
+        onChangeText={recado => setRecado(recado)} /*atualiza o estado conforme o usuario digita */
       />
 
       <TouchableOpacity style={styles.botao} onPress={handleEnviar}>
-        <Text style={styles.botaoTexto}>Enviar</Text>
+        <Text style={styles.botaoTexto}>Enviar</Text> /*botao enviar */
       </TouchableOpacity>
 
-      {recado !== '' && (
+      {recado !== '' && ( /*se estiver com coisa */
         <View style={styles.container}>
             <Text style={styles.label}>Seu recado:</Text>
             <Text style={styles.recado}>{recado}</Text>
