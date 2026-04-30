@@ -27,8 +27,8 @@ class ProdutoService{
         }
         return {
             sucesso: true,
-            dados: produto
-            
+            dados: produto[0]
+
         }
     }
 
