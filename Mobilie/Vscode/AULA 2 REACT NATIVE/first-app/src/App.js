@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Recados from './hooks/exercicio';
+import FormularioExemplos from './text_input/formulario';
+import FlatListExemplo from './flatlist/flatlist_example';
+import ListaDeCompras from './flatlist/exercicios';
 
 
 
@@ -9,7 +11,7 @@ import Recados from './hooks/exercicio';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Recados/>
+      <ListaDeCompras/>
     </View>
   
   );
