@@ -51,8 +51,8 @@ if (main) {
             event.preventDefault();
             const card = clicado.closest(".card"); // Garante pegar o card pai
             const nomePrato = card.querySelector("h3").textContent;
-            const quantidade = card.querySelector(".qtd-valor").textContent;
-            const preco = card.querySelector(".preco").textContent;
+            const quantidade = Number(card.querySelector(".qtd-valor").textContent);
+            const preco = parseFloat(card.querySelector(".preco").getAttribute("data-preco"));
 
             // Feedback Visual
             const textoOriginal = clicado.textContent;
@@ -77,9 +77,9 @@ if (main) {
             //resetar a quantidade de itens(novo)
             const box = card.querySelector(".quantidade-box")
 
-            if(prato){
-                prato.querySelector(".qtd-valor").textContent = "1"
-                atualizarPrecoCard(prato)
+            if(box){
+                box.querySelector(".qtd-valor").textContent = "1"
+                atualizarPrecoCard(box)
             }
 
             //adicional açao de xalvar pedido
@@ -124,7 +124,7 @@ function atualizarPrecoCard(prato) {
 
 function salvarPedido(pedido){
     //leu
-    const lista = JSON.parse(localStorage.getItem("techfood_pedidos") || [])
+    const lista = JSON.parse(localStorage.getItem("techfood_pedidos") || "[]")
     //modifico
     pedido.subtotal = pedido.preco * pedido.qtd
     //salvou
