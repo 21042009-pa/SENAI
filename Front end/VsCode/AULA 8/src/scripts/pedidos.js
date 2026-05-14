@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   renderizarPedidos();
+  configurarLimparPedidos()
 });
 
 function renderizarPedidos() {
@@ -16,15 +17,17 @@ function renderizarPedidos() {
   if (pedidos.length === 0) {
     lista.innerHTML =
       "<li class='pedido-vazio'> Nenhum pedido ainda. Acesse o" +
-      "<a href='index.html> Cardápio </a> Para adicionar! 😋 </li>";
+      "<a href='index.html'> Cardápio </a> Para adicionar! 😋 </li>";
 
     if (spanTotal) spanTotal.textContent = "R$0,00";
     if (spanResumo) spanResumo.textContent = "R$0,00";
-    if (spanContador) spanContador = "0 itens";
+    if (spanContador) spanContador.textContent = "0 itens";
+    return
   }
 
   lista.innerHTML = "";
   let total = 0;
+
   pedidos.forEach(function (pedido, indice) {
     const li = document.createElement("li");
     li.classList.add("item-pedido");
@@ -37,10 +40,11 @@ function renderizarPedidos() {
       "-" +
       pedido.qtd +
       "X" +
-      "R$" +
+      "R$ " +
       pedido.preco.toFixed(2).replace(".", ",") +
-      '= <span class= "subtotal-item"> R$' +
-      pedido.subtotal.toFixed(2).replace(".", ",");
+      " = <span class='subtotal-item'> R$ " +
+      pedido.subtotal.toFixed(2).replace(".", ",") +
+      "</span>";
 
     // Cria um botão para remover o item do resumo
     const btnRemover = document.createElement("button");
@@ -60,7 +64,7 @@ function renderizarPedidos() {
 
       lista.splice(indice, 1);
 
-      localStorage.setItem("techfood_pedidos");
+      localStorage.setItem("techfood_pedidos" , JSON.stringify(lista));
       renderizarPedidos();
     });
 
@@ -72,20 +76,30 @@ function renderizarPedidos() {
 
     // Adiciona o item completo na lista de resumo
     lista.appendChild(li);
-
-    total += pedido.subtotal
-
-    const totalFmt = 'R$' + total.toFixed(2).replace(".", ",")
+    total += pedido.subtotal;
   });
+
+  const totalFmt = "R$" + total.toFixed(2).replace(".", ",");
+  if (spanTotal) spanTotal.textContent = totalFmt;
+  if (spanResumo) spanResumo.textContent = totalFmt;
+
+  const totalItens = pedidos.reduce(function (acc, p) {
+    return acc + p.qtd;
+  }, 0);
+
+  if (spanContador) {
+    spanContador.textContent =
+      totalItens + (totalItens === 1 ? "item" : "itens");
+  }
 }
 
-function configurarLimparPedidos (){
-    const btn = document.querySelector("#btn-limpar-pedidos")
+function configurarLimparPedidos() {
+  const btn = document.querySelector("#btn-limpar-pedidos");
 
-    if(!btn) return
+  if (!btn) return;
 
-    btn.addEventListener("click", function(){
-        localStorage.removeItem("techfood_pedidos")
-        renderizarPedidos()
-    })
+  btn.addEventListener("click", function () {
+    localStorage.removeItem("techfood_pedidos");
+    renderizarPedidos();
+  });
 }
