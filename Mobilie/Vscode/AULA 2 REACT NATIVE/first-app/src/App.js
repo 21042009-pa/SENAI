@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import FormularioExemplos from './text_input/formulario';
 import FlatListExemplo from './flatlist/flatlist_example';
 import ListaDeCompras from './flatlist/exercicios';
+import {NavigationContainer} from '@react-navigation/native'
+import StackNavigator from './navigation/exemplos/stack_navigation';
+
 
 
 
@@ -10,10 +13,9 @@ import ListaDeCompras from './flatlist/exercicios';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ListaDeCompras/>
-    </View>
-  
+    <NavigationContainer>
+      <StackNavigator></StackNavigator>
+    </NavigationContainer>
   );
 }
 
