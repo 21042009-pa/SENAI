@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const multer = require("../config/multer")
 const PedidoController = require('../controllers/PedidoController')
 
 router.get('/', PedidoController.listarPedidos)
