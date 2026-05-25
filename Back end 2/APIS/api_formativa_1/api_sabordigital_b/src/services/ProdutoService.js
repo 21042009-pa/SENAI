@@ -33,7 +33,12 @@ class ProdutoService{
     }
 
     async cadastrarProduto(dados){
-        const {nome, descricao, preco, categoria, disponivel, imagem} = dados
+        const {nome, descricao, precos, categoria, disponivel, imagem} = dados
+
+        const preco = Number(precos)
+
+        console.log(preco)
+        
 
         if(!nome || !descricao || preco === undefined){
             throw{
@@ -45,7 +50,7 @@ class ProdutoService{
         if(typeof preco !== 'number' || preco <= 0){
             throw{
                 status: 400,
-                mensagem: 'preco deve ser um número positivo'
+                mensagem: `preco deve ser um número positivo ${typeof(preco)}`
             }
         }
 
@@ -86,15 +91,18 @@ class ProdutoService{
         const produtoAtualizado = {}
         const {nome, descricao, preco, categoria, disponivel, imagem} = dados
 
+
         if(nome !== undefined || nome.trim() !== '') produtoAtualizado.nome = nome.trim()
             
         if(descricao !== undefined) produtoAtualizado.descricao = descricao.trim()
         
         if(preco !== undefined){
-            if(typeof preco !== 'number' || preco <=0){
+            if(typeof preco !== 'number' || preco <= 0){
+                console.log(typeof(preco))
+                console.log(preco)
                 throw{
                     status: 400,
-                    mensagem: 'preco deve ser um número positivo'
+                    mensagem: `preco deve ser um número positivo`
                 }
             }
             produtoAtualizado.preco=preco
