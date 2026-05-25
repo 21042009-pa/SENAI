@@ -50,6 +50,9 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedido(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produto(id) ON DELETE RESTRICT
 );
+ show columns from produto;
+ 
+ alter table produto add column imagem varchar (255);
 
 -- População inicial (Opcional)
 INSERT INTO produto (nome, descricao, preco, categoria, disponivel) VALUES 
