@@ -5,6 +5,8 @@ import FlatListExemplo from './flatlist/flatlist_example';
 import ListaDeCompras from './flatlist/exercicios';
 import {NavigationContainer} from '@react-navigation/native'
 import StackNavigator from './navigation/exemplos/stack_navigation';
+import BottomTabNavigator from './navigation/exemplos/bottom_tab_navigator';
+import DrawerNavigator from './navigation/exemplos/drawer_navigator';
 
 
 
@@ -14,7 +16,7 @@ import StackNavigator from './navigation/exemplos/stack_navigation';
 export default function App() {
   return (
     <NavigationContainer>
-      <StackNavigator></StackNavigator>
+      <DrawerNavigator></DrawerNavigator>
     </NavigationContainer>
   );
 }
