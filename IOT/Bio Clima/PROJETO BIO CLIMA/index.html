@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Smart Bio-Clima</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!--
+        MQTT.js — biblioteca que permite usar MQTT no navegador.
+        O browser não consegue TCP puro, então ela usa WebSocket.
+        Carregada via CDN — requer internet para funcionar.
+        Para uso offline: baixe o arquivo e referencie localmente.
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="topo">
+        <div class="titulo-topo">
+          <h1>Smart Bio-Clima</h1>
+
+          <p>Monitoramento inteligente da sala</p>
+        </div>
+
+        <div class="status-sistema">Sistema ativo</div>
+      </header>
+
+      <main>
+        <section class="cards">
+          <article class="card">
+            <h2>Temperatura</h2>
+
+            <p id="temperatura">24°C</p>
+          </article>
+
+          <article class="card">
+            <h2>Modo Econômico</h2>
+
+            <p id="modoEconomico">Ativado</p>
+          </article>
+
+          <article class="card">
+            <h2>Presença</h2>
+
+            <p id="presenca">Detectada</p>
+          </article>
+
+          <article class="card">
+            <h2>Atuadores</h2>
+
+            <p id="led">LED: desligado</p>
+
+            <p id="buzzer">Buzzer: desligado</p>
+          </article>
+        </section>
+
+        <section class="dashboard">
+          <section class="grafico-card">
+            <div class="cabecalho-card">
+              <h2>Histórico de Temperatura</h2>
+            </div>
+
+            <div class="grafico" id="grafico">
+              <div class="barra"></div>
+              <div class="barra"></div>
+              <div class="barra"></div>
+              <div class="barra"></div>
+              <div class="barra"></div>
+              <div class="barra"></div>
+            </div>
+          </section>
+
+          <aside class="lateral">
+            <section class="controle">
+              <h2>Controle</h2>
+
+              <button id="botaoModo">Desativar Economia</button>
+            </section>
+
+            <section class="alertas">
+              <h2>Alertas</h2>
+
+              <ul id="listaAlertas">
+                <li>Temperatura estável</li>
+
+                <li>Sala ocupada</li>
+
+                <li>Economia ativa</li>
+              </ul>
+            </section>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="rodape">
+        <p>Smart Bio-Clima © 2026</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

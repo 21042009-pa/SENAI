@@ -1,0 +1,3 @@
+DUVIDAS DA CONEXÃO:
+- Como eu vou mudar oq ta escirto no index fazendo a conexão no ava script?
+- Como ele sabe na função exemplo: "temperatura valor" que tem que pegar da temperatura do código
