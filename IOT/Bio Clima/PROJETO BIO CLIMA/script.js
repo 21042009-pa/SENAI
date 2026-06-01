@@ -23,7 +23,9 @@ const CLIENT_ID = "dashboard_" + Math.random().toString(16).slice(2, 8);
 
 // ── Elementos do HTML que vamos atualizar ────────────────────────
 const temperatura = document.querySelector("#temperatura")
-const 
+const presenca = document.querySelector("#presenca")
+const led = document.querySelector("#led")
+const buzzer = document.querySelector("#buzzer")
 
 // ── Funções auxiliares ────────────────────────────────────────────
 
@@ -84,6 +86,9 @@ cliente.on("connect", () => {
 // É o inverso do .encode() que o Pico usa ao publicar
 cliente.on("message", (topico, payload) => {
   const temperatura_valor = payload.toString();
+  const pir_valor = payload.toString();
+  const distancia_valor = payload.toString();
+  const sistema_valor = payload.toString();
   exibirMensagem(topico, mensagem);
 });
 
@@ -102,3 +107,17 @@ cliente.on("close", () => {
 
 
 temperatura.textContent = temperatura_valor
+
+if (pir_valor == 1 && distancia_valor == 1){
+  presenca.textContent = "Detectada"
+}else{
+  presenca.textContent = "Não detectada"
+}
+
+if (sistema_valor == 1){
+  led.textContent = "Led: Ligado"
+  buzzer.textContent = "buzzer: Ligado" 
+}else{
+  led.textContent = "Led: Desligado"
+  buzzer.textContent = "buzzer: Desligado" 
+}

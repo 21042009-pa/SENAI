@@ -1,7 +1,32 @@
 document.addEventListener("DOMContentLoaded", function(){
+    renderizarCardapio()
     inicializarHoverCards()
     inicializarVitrini()
 })
+
+async function renderizarCardapio() {
+    const grid = document.querySelector("#grid-cardapio")
+    if(!grid) return
+
+    grid.innerHTML = "<P class='loadinh'> Carregando Cardápio...</p>"
+
+    try {
+        const produtos = await buscarProdutos()
+        grid.innerHTML = ""
+        produtos.forEach(function(produtos){
+            const card = document.createElement("article")
+            card.classList.add("card")
+            card.setAttribute("data-id", produto.id)
+            card.innerHTML = //aqui teria uma imagem, pois vai ser responsabilidade do back end
+            `<h3>${produto.nome}</h3>` + `<p class='desc>${produto.descricao}</p>` + `<div class='quantidade-box'>` + `<button class='btn-menos'>-</button>`+ `<span class='qtd-valor'>1</span>` + `<button class = 'btn-mais'>+</button>` + `</div>` + `<span class='preco' data-preco='${produto.preco}'>` + `R$ ${parseFloat(produto.preco).toFixed(2).replace(".",",")}` +`</span>` + `<button class='btn-pedido'> Pedir Agora </button>`
+
+            grid.appendChild(card)
+        })
+
+    } catch (erro) {
+        grid.innerHTML = "<p class= 'loading erro'> Erro ao carregar o cardápio. Verifique se o servidor está rodando.</p>"
+    }
+}
 
 function inicializarHoverCards(){
     
@@ -49,42 +74,12 @@ if (main) {
         // Botão Pedir Agora
         if (clicado.classList.contains("btn-pedido")) {
             event.preventDefault();
-            const card = clicado.closest(".card"); // Garante pegar o card pai
-            const nomePrato = card.querySelector("h3").textContent;
-            const quantidade = Number(card.querySelector(".qtd-valor").textContent);
-            const preco = parseFloat(card.querySelector(".preco").getAttribute("data-preco"));
-
-            // Feedback Visual
-            const textoOriginal = clicado.textContent;
-            clicado.textContent = "Adicionado 🥳";
-            clicado.style.backgroundColor = "#27ae60";
-            clicado.disabled = true; // Corrigido: .disabled
-
-            setTimeout(() => {
-                clicado.textContent = textoOriginal;
-                clicado.style.backgroundColor = "";
-                clicado.disabled = false;
-            }, 1500);
-
-            const badgeExistente = card.querySelector(".badge-adicionado")
-
-            if(badgeExistente) badgeExistente.remove()
-                card.insertAdjacentHTML("beforeend", "<span class='badge-adicionado'> 🥳 no resumo </span>");
-            setTimeout(function(){
-                const badge = card.querySelector(".badge-adicionado")
-                if(badge) badge.remove()
-            }, 2000)
-            //resetar a quantidade de itens(novo)
-            const box = card.querySelector(".quantidade-box")
-
-            if(box){
-                box.querySelector(".qtd-valor").textContent = "1"
-                atualizarPrecoCard(box)
-            }
+            const card = clicado.parentElement
+            const produtoId = Number(card.getAttribute("data-id"))
+            const quantidade = Number(card.querySelector(".qtd-valor").textContent)
 
             //adicional açao de xalvar pedido
-            salvarPedido({ nome:nomePrato, preco: preco, qtd: quantidade     });
-            atualizarContadorPedidos()
+            salvarPedido({produtoId, quantidade, clicado});
         }
     });
 }
@@ -122,14 +117,34 @@ function atualizarPrecoCard(prato) {
         total > 150 ? "#c0892b" : "#e67e22"
 }
 
-function salvarPedido(pedido){
-    //leu
+function salvarPedido(produtoId, quantidade, botao){
+   const card = botao.parentElement
+   const nome = card.querySelector("h3").textContent
+   const preco = parseFloat(card.querySelector(".preco").getAttribute("data-preco"))
+   const subtotal = preco * quantidade 
     const lista = JSON.parse(localStorage.getItem("techfood_pedidos") || "[]")
-    //modifico
-    pedido.subtotal = pedido.preco * pedido.qtd
-    //salvou
-    lista.push(pedido)
+    lista.push({
+        produto_id: produtoId,
+        quantidade,
+        nome,
+        preco,
+        subtotal,
+    })
     localStorage.setItem("techfood_pedidos", JSON.stringify(lista))
+
+     // Feedback Visual
+            const textoOriginal = clicado.textContent;
+            clicado.textContent = "Adicionado 🥳";
+            clicado.style.backgroundColor = "#27ae60";
+            clicado.disabled = true; // Corrigido: .disabled
+
+            atualizarContadorPedidos()
+
+            setTimeout(() => {
+                clicado.textContent = textoOriginal;
+                clicado.style.backgroundColor = "";
+                clicado.disabled = false;
+            }, 1500);
 
 }
 
