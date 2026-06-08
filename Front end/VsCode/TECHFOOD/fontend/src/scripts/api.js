@@ -2,6 +2,23 @@ const BASE_URL = "http://localhost:3000"//fixar conexão
 
 //1.buscar os produtos
 
+
+async function criarProduto() {
+    const response = await fetch(`${BASE_URL}/produtos`)
+    const dados = await response.json()
+
+    if(!response.ok) throw new Error(dados.erro || `Erro ${response.status}`)
+        return dados.dados
+
+    
+
+
+
+
+    
+    
+}
+
 async function buscarProdutos() {
     //realiza conexao (espera até receber a resposta)
     const response = await fetch(`${BASE_URL}/produtos`)

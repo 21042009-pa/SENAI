@@ -1,17 +1,224 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
+/* ==========================================================
+   CADASTRO.CSS — Estilos da página de Cadastro (cadastro.html)
+   Versão Ultra Criativa: Moderna, Fluida e com Micro-interações
+   ========================================================== */
+
+/* ── Container Principal ────────────────────────────────── */
+main {
+  max-width: 650px;
+  margin: 50px auto;
+  padding: 0 24px;
 }
 
-form{
-    text-align: center;
-    padding: 20px;
-    font-weight: bold;
-    background: #f8f9fa;
-  border: 1px solid #e0e0e0;
+#forms-cadastro {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  /* Sombra suave tridimensional */
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Detalhe estético no topo do card (Linha de destaque gradiente) */
+#forms-cadastro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--cor-destaque, #e67e22), var(--cor-amarelo, #f1c40f));
+}
+
+/* ── Customização de Labels e Inputs ────────────────────── */
+#forms-cadastro label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cor-primaria, #2c3e50);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: -12px;
+  transition: color 0.2s ease;
+}
+
+/* Muda a cor da label dinamicamente quando o input abaixo ganha foco */
+#forms-cadastro label:has(+ input:focus),
+#forms-cadastro label:has(+ select:focus) {
+  color: var(--cor-destaque, #e67e22);
+}
+
+/* Inputs de Texto, Número e Select */
+#forms-cadastro input[type="text"],
+#forms-cadastro input[type="number"],
+#forms-cadastro select {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: #fdfdfd;
+  border: 2px solid #eef2f5;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de foco imersivo com elevação sutil */
+#forms-cadastro input[type="text"]:focus,
+#forms-cadastro input[type="number"]:focus,
+#forms-cadastro select:focus {
+  border-color: var(--cor-destaque, #e67e22);
+  background-color: #fff;
+  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Placeholder elegante */
+#forms-cadastro input::placeholder {
+  color: #bbb;
+  font-size: 0.95rem;
+}
+
+/* ── Área de Upload de Foto (Sub-formulário) ─────────────── */
+#forms-cadastro form {
+  background: linear-gradient(145deg, #f8fafd, #f1f5f9);
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 25px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+/* Transição de cor amigável ao passar o rato na área da foto */
+#forms-cadastro form:hover {
+  border-color: var(--cor-destaque, #e67e22);
+  background: linear-gradient(145deg, #fdfbf7, #fcf8f2);
+}
+
+#forms-cadastro form label {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+#forms-cadastro input[type="file"] {
+  font-size: 0.85rem;
+  color: #64748b;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+}
+
+/* Botão Secundário: Enviar Foto */
+#button-foto {
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  color: var(--cor-primaria, #2c3e50);
+  padding: 8px 18px;
   border-radius: 8px;
-  padding: 12px 20px;
-  margin-bottom: 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+#button-foto:hover {
+  border-color: var(--cor-primaria, #2c3e50);
+  background-color: var(--cor-primaria, #2c3e50);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── Botões Principais do Formulário ────────────────────── */
+#button-eviar,
+#button-limpar {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Botão Enviar Cadastro (Laranja com efeito de brilho/glow) */
+#button-eviar {
+  background: linear-gradient(135deg, #e67e22, #f39c12);
+  color: white;
+  margin-top: 15px;
+  box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+}
+
+#button-eviar:hover {
+  background: linear-gradient(135deg, #d35400, #e67e22);
+  box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Botão Limpar Tudo (Efeito Fantasma/Outline discreto) */
+#button-limpar {
+  background: transparent;
+  border: 2px solid #e2e8f0;
+  color: #94a3b8;
+}
+
+#button-limpar:hover {
+  border-color: var(--cor-vermelho, #e74c3c);
+  color: var(--cor-vermelho, #e74c3c);
+  background-color: rgba(231, 76, 60, 0.02);
+  transform: translateY(-1px);
+}
+
+/* Efeito tátil físico ao pressionar qualquer botão */
+#forms-cadastro button:active {
+  transform: scale(0.97) translateY(0);
+}
+
+/* ── Animação de Entrada Interativa ─────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#forms-cadastro {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Responsividade Avançada ────────────────────────────── */
+@media (max-width: 600px) {
+  main {
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+
+  #forms-cadastro {
+    padding: 25px 20px;
+    gap: 18px;
+  }
+  
+  #button-eviar,
+  #button-limpar {
+    padding: 14px;
+  }
 }
