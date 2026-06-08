@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { CardMusica } from '../components';
 
-// Dados de exemplo para voce visualizar o renderItem funcionando
-// Em um app real, esses itens chegariam via route.params enviados pela DetalheScreen
+
 const musicasMock = [
   {
     id: "1",
@@ -20,11 +19,10 @@ const musicasMock = [
     nota: "9/10",
   },
 ];
-// passar Route como parâmetro para uso dos parametros de rota
 export default function ListaScreen({route}) {
   const [itensSalvos, setItensSalvos] = useState(musicasMock);
 
-  // Para receber uma musica salva da DetalheScreen via route.params:
+
   useEffect(() => {
     if (route.params?.novaMusica) {
       setItensSalvos((prev) => [...prev, route.params.novaMusica]);
