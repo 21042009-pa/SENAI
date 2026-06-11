@@ -39,130 +39,130 @@ else:
     # Sensores
     # ============================================
 
-    sensor_dht = dht.DHT22(Pin(15))
+            sensor_dht = dht.DHT22(Pin(1))
 
-    sensor_pir = Pin(14, Pin.IN)
+            sensor_pir = Pin(3, Pin.IN)
 
-    trigger = Pin(22, Pin.OUT)
-    echo = Pin(21, Pin.IN)
+            trigger = Pin(22, Pin.OUT)
+            echo = Pin(21, Pin.IN)
 
-    # ============================================
-    # Atuadores
-    # ============================================
+            # ============================================
+            # Atuadores
+            # ============================================
 
-    led = Pin(17, Pin.OUT)
+            led = Pin(14, Pin.OUT)
 
-    buzzer = PWM(Pin(16))
+            buzzer = PWM(Pin(15))
 
-    # ============================================
-    # Configurações
-    # ============================================
+            # ============================================
+            # Configurações
+            # ============================================
 
-    TEMPERATURA_LIMITE = 26
-    DISTANCIA_LIMITE = 50
+            TEMPERATURA_LIMITE = 26
+            DISTANCIA_LIMITE = 50
 
-    # ============================================
-    # Função ultrassônica
-    # ============================================
+            # ============================================
+            # Função ultrassônica
+            # ============================================
 
-    def medir_distancia():
+            def medir_distancia():
 
-        trigger.off()
-        sleep_us(2)
+                trigger.off()
+                sleep_us(2)
 
-        trigger.on()
-        sleep_us(10)
-        trigger.off()
+                trigger.on()
+                sleep_us(10)
+                trigger.off()
 
-        timeout = 30000
+                timeout = 30000
 
-        inicio_espera = time.ticks_us()
+                inicio_espera = time.ticks_us()
 
-        while echo.value() == 0:
+                while echo.value() == 0:
 
-            if time.ticks_diff(time.ticks_us(), inicio_espera) > timeout:
-                return None
+                    if time.ticks_diff(time.ticks_us(), inicio_espera) > timeout:
+                        return None
 
-        inicio = time.ticks_us()
+                inicio = time.ticks_us()
 
-        while echo.value() == 1:
+                while echo.value() == 1:
 
-            if time.ticks_diff(time.ticks_us(), inicio) > timeout:
-                return None
+                    if time.ticks_diff(time.ticks_us(), inicio) > timeout:
+                        return None
 
-        fim = time.ticks_us()
+                fim = time.ticks_us()
 
-        duracao = time.ticks_diff(fim, inicio)
+                duracao = time.ticks_diff(fim, inicio)
 
-        distancia = (duracao * 0.0343) / 2
+                distancia = (duracao * 0.0343) / 2
 
-        return distancia
+                return distancia
 
-    # ============================================
-    # Loop principal
-    # ============================================
+            # ============================================
+            # Loop principal
+            # ============================================
 
-    while True:
+            while True:
 
-        try:
+                try:
 
-            sensor_dht.measure()
-            temperatura = sensor_dht.temperature()
+                    sensor_dht.measure()
+                    temperatura = sensor_dht.temperature()
 
-            pir = sensor_pir.value()
+                    pir = sensor_pir.value()
 
-            distancia = medir_distancia()
+                    distancia = medir_distancia()
 
-            if distancia is None:
-                print("Erro no ultrassônico")
-                sleep(1)
-                continue
+                    if distancia is None:
+                        print("Erro no ultrassônico")
+                        sleep(1)
+                        continue
 
-            # ====================================
-            # Lógica
-            # ====================================
+                    # ====================================
+                    # Lógica
+                    # ====================================
 
-            if (
-                pir == 1
-                and distancia <= DISTANCIA_LIMITE
-                and temperatura >= TEMPERATURA_LIMITE
-            ):
+                    if (
+                        pir == 1
+                        and distancia <= DISTANCIA_LIMITE
+                        and temperatura >= TEMPERATURA_LIMITE
+                    ):
 
-                led.on()
+                        led.on()
 
-                buzzer.freq(1000)      # frequência do som
-                buzzer.duty_u16(30000) # volume/intensidade
+                        buzzer.freq(1000)      # frequência do som
+                        buzzer.duty_u16(30000) # volume/intensidade
 
-                sistema = 1
+                        sistema = 1
 
-            else:
+                    else:
 
-                led.off()
+                        led.off()
 
-                buzzer.duty_u16(0)
+                        buzzer.duty_u16(0)
 
-                sistema = 0
+                        sistema = 0
 
-            # ====================================
-            # Dashboard
-            # ====================================
+                    # ====================================
+                    # Dashboard
+                    # ====================================
 
-            print("temperatura:", temperatura, "°C")
-            cliente.publish(TOPIC_PUB, temperatura.encode())
-            print("pir:", pir)
-            cliente.publish(TOPIC_PUB, pir.encode())
-            print("distancia:", round(distancia, 2), "cm")
-            cliente.publish(TOPIC_PUB, distancia.encode())
-            print("sistema:", sistema)
-            cliente.publish(TOPIC_PUB, sistema.encode())
+                    print("temperatura:", temperatura, "°C")
+                    cliente.publish(TOPIC_PUB, temperatura.encode())
+                    print("pir:", pir)
+                    cliente.publish(TOPIC_PUB, pir.encode())
+                    print("distancia:", round(distancia, 2), "cm")
+                    cliente.publish(TOPIC_PUB, distancia.encode())
+                    print("sistema:", sistema)
+                    cliente.publish(TOPIC_PUB, sistema.encode())
 
-            print("-----------------------")
+                    print("-----------------------")
 
-        except Exception as erro:
+                except Exception as erro:
 
-            print("Erro:", erro)
+                    print("Erro:", erro)
 
-        sleep(2)
+                sleep(2)
 
     except Exception as e:
         # Captura qualquer erro (broker caiu, WiFi oscilou, etc.)
