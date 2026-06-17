@@ -1,65 +1,11 @@
 document.addEventListener("DOMContentLoaded", function(){//as funções desse arquivo só serão executadas quando a página estiver carregada
-    solicitarNomeCliente()
-    exibirNomeCliente()
     exibirBoasVindas()
     exibirDataFooter()
     fecharMenuAoNavegar()
+    solicitarNomeCliente()
+    exibirNomeCliente()
 }) 
-
-function exibirBoasVindas(){
-    if (sessionStorage.getItem("techfood_cliente")) return;
-
-    const agora = new Date();
-    const horaExata = agora.getHours() + agora.getMinutes() / 60;
-
-    let saudacao;
-    if (horaExata >= 5 && horaExata < 12) {
-        saudacao = "☀️ Bom dia! Qual o seu pedido?";
-    } else if (horaExata >= 12 && horaExata < 18) {
-        saudacao = "🌤️ Boa tarde! Confira nosso cardápio.";
-    } else {
-        saudacao = "🌙 Boa noite! Ainda dá tempo de pedir.";
-    }
-
-    const elemSaudacao = document.querySelector("#boas-vindas");
-    if (elemSaudacao) elemSaudacao.textContent = saudacao;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// exibirDataFooter()
-// Aula 8: exibe a data atual no rodapé de todas as páginas. Sem mudanças.
-// ─────────────────────────────────────────────────────────────────────────────
-function exibirDataFooter() {
-  const elemFooter = document.querySelector("#data-hora-footer");
-  if (!elemFooter) return;
-
-  const agora = new Date();
-  elemFooter.textContent = agora.toLocaleDateString("pt-BR", {
-    weekday: "long",
-    year:    "numeric",
-    month:   "long",
-    day:     "numeric",
-  });
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// fecharMenuAoNavegar()
-// Aula 8: fecha o menu hambúrguer no mobile ao clicar em link. Sem mudanças.
-// ─────────────────────────────────────────────────────────────────────────────
-//falta terminar
-function fecharMenuAoNavegar() {
-  const isMobile = window.matchMedia("(max-width: 600px)").matches;
-  if (!isMobile) return;
-
-  const linksMenu = document.querySelectorAll("#menu a");
-  linksMenu.forEach(function (link) {
-    link.addEventListener("click", function () {
-      const checkbox = document.querySelector("#bt_menu");
-      if (checkbox) checkbox.checked = false;
-    });
-  });
-}
-//cliente digita nome no popup e envia para sessionstorage
+//Cliente digita nome no pop-up e envia para o sessionStorage 
 function solicitarNomeCliente(){
     if(sessionStorage.getItem('techfood_cliente')) return 
 
@@ -95,13 +41,33 @@ function solicitarNomeCliente(){
     }, 100) //Tempo de espera.
 }
 
-//pega o valor do sessionstoragen e exibe no cabeçalho
+//Pega o valor do sessionStorage e exibe no cabeçalho
 function exibirNomeCliente(){
-    const nome = sessionStorage.getItem("techfood_cliente")
-    const elemento = document.querySelector("#boas-vindas")
+    const nome = sessionStorage.getItem('techfood_cliente') 
+    const elemento = document.querySelector('#boas-vindas')
 
     if(!elemento) return
-    
+
+    const agora = new Date();
+    const horaExata = agora.getHours() + agora.getMinutes() / 60;
+
+    let saudacao;
+    if (horaExata >= 5 && horaExata < 12) {
+        saudacao = "☀️ Bom dia! Qual o seu pedido?";
+    } else if (horaExata >= 12 && horaExata < 18) {
+        saudacao = "🌤️ Boa tarde! Confira nosso cardápio.";
+    } else {
+        saudacao = "🌙 Boa noite! Ainda dá tempo de pedir.";
+    }    
+
+    elemento.textContent = nome 
+    ? `${saudacao} ${nome}! O que vai pedir hoje?` 
+    : `${saudacao}! Qual o seu pedido?`
+}
+
+function exibirBoasVindas(){
+    if (sessionStorage.getItem("techfood_cliente")) return;
+
     const agora = new Date();
     const horaExata = agora.getHours() + agora.getMinutes() / 60;
 
@@ -114,8 +80,33 @@ function exibirNomeCliente(){
         saudacao = "🌙 Boa noite! Ainda dá tempo de pedir.";
     }
 
-    elemento.textContent = nome 
-    ? `${saudacao}, ${nome}! o que vai pedir hoje?`
-    : `${saudacao}! Qual o seu pedido?`
+    const elemSaudacao = document.querySelector("#boas-vindas");
+    if (elemSaudacao) elemSaudacao.textContent = saudacao;
+}
 
+function exibirDataFooter() {
+    const elemFooter = document.querySelector("#data-hora-footer");
+    if (!elemFooter) return;
+
+    const agora = new Date();
+    elemFooter.textContent = agora.toLocaleDateString("pt-BR", {
+        weekday: "long",
+        year:    "numeric",
+        month:   "long",
+        day:     "numeric",
+    });
+}
+
+//Falta terminar
+function fecharMenuAoNavegar() {
+    const isMobile = window.matchMedia("(max-width: 600px)").matches;
+    if (!isMobile) return;
+
+    const linksMenu = document.querySelectorAll("#menu a");
+    linksMenu.forEach(function (link) {
+        link.addEventListener("click", function () {
+        const checkbox = document.querySelector("#bt_menu");
+        if (checkbox) checkbox.checked = false;
+        });
+    });
 }
