@@ -1,123 +1,129 @@
 // script.js — Lógica do Dashboard
 // ─────────────────────────────────────────────────────────────────
-// Este arquivo faz a comunicação entre o browser e o broker MQTT.
-// Ele conecta via WebSocket, assina um tópico e exibe as mensagens
-// que chegam do Pico 2W em tempo real.
-//
-// Para adaptar ao seu projeto:
-//   1. Mude o BROKER e o TOPICO abaixo
-//   2. Edite a função exibirMensagem() para tratar seus dados
 
 // ── Configuração ──────────────────────────────────────────────────
-// ws:// = WebSocket sem criptografia (equivalente ao http://)
-// O IP é o mesmo do BROKER_IP no config.py do Pico
-// A porta 8000 é a porta WebSocket configurada no mosquitto.conf
-const BROKER = "ws://10.132.106.16 :8000"; // ← coloque o IP do seu notebook
+// Mantemos a porta 9001 que é o padrão do WebSockets no Mosquitto
+const BROKER = "ws://10.132.112.4:9001"; 
 
-// Deve ser igual ao TOPIC_PUB do config.py do Pico
-const TOPICO = "senai/grupo_3/bio_clima"; // o "+" é um wildcard — recebe de QUALQUER aluno
+// Tópico de sensores e tópico de comandos
+const TOPICO_SENSORES = "senai/grupo3/sensores"; 
+const TOPICO_COMANDOS = "senai/grupo3/comandos";
 
-// ClientID único para este browser — o Math.random evita conflito
-// se dois browsers abrirem o dashboard ao mesmo tempo
+// ClientID único para este browser
 const CLIENT_ID = "dashboard_" + Math.random().toString(16).slice(2, 8);
 
 // ── Elementos do HTML que vamos atualizar ────────────────────────
-const temperatura = document.querySelector("#temperatura")
-const presenca = document.querySelector("#presenca")
-const led = document.querySelector("#led")
-const buzzer = document.querySelector("#buzzer")
+const temperatura = document.querySelector("#temperatura");
+const presenca = document.querySelector("#presenca");
+const led = document.querySelector("#led");
+const buzzer = document.querySelector("#buzzer");
+const botaoModo = document.querySelector("#botaoModo");
+const modoEconomicoTexto = document.querySelector("#modoEconomico");
 
 // ── Funções auxiliares ────────────────────────────────────────────
 
-// Adiciona uma linha no log com a hora atual
-function adicionarLog(texto, cor = "#8b949e") {
+// Adiciona log no console do navegador
+function adicionarLog(texto, cor = "gray") {
   const hora = new Date().toLocaleTimeString("pt-BR");
-  logEl.innerHTML += `<span style="color:${cor}">[${hora}] ${texto}</span>\n`;
-  logEl.scrollTop = logEl.scrollHeight; // mantém o scroll no final
-}
-
-// Atualiza o indicador visual de status (bolinha + texto)
-function atualizarStatus(conectado, texto) {
-  statusDot.className = "status-dot" + (conectado ? " conectado" : "");
-  statusTexto.textContent = texto;
-}
-
-// ── Exibir mensagem recebida ──────────────────────────────────────
-// Esta função é chamada toda vez que uma mensagem chega do Pico.
-// Para projetos com sensores, faça o tratamento dos dados aqui.
-// Exemplo: const partes = mensagem.split(",") → { temp, umid }
-function exibirMensagem(topico, mensagem) {
-  // Atualiza o cartão principal com a mensagem
-  ultimaMensagem.textContent = mensagem;
-
-  // Registra a hora da última atualização
-  horarioEl.textContent =
-    "Recebido às " + new Date().toLocaleTimeString("pt-BR");
-
-  // Adiciona a mensagem ao log com cor de destaque
-  adicionarLog(`[${topico}] ${mensagem}`, "#ffaa00");
+  console.log(`%c[${hora}] ${texto}`, `color: ${cor}`);
 }
 
 // ── Conexão MQTT ──────────────────────────────────────────────────
-// mqtt.connect() cria a conexão WebSocket com o broker
-// Retorna um objeto 'cliente' que usamos para pub/sub
 adicionarLog(`Conectando em ${BROKER}...`);
 const cliente = mqtt.connect(BROKER, {
   clientId: CLIENT_ID,
-  clean: true, // não guarda sessão — começa do zero a cada conexão
+  clean: true,
 });
 
 // Evento: disparado quando a conexão com o broker é estabelecida
 cliente.on("connect", () => {
-  atualizarStatus(true, "Conectado ao broker");
-  adicionarLog("Conectado com sucesso!", "#00ff88");
+  adicionarLog("Conectado com sucesso!", "green");
 
   // Assina o tópico para começar a receber mensagens do Pico
-  // O callback confirma que o subscribe foi aceito pelo broker
-  cliente.subscribe(TOPICO, (err) => {
+  cliente.subscribe(TOPICO_SENSORES, (err) => {
     if (!err) {
-      adicionarLog(`Assinando: "${TOPICO}"`);
+      adicionarLog(`Assinando: "${TOPICO_SENSORES}"`);
     }
   });
 });
 
 // Evento: disparado toda vez que uma mensagem chega no tópico assinado
-// 'payload' chega como bytes — toString() converte para texto
-// É o inverso do .encode() que o Pico usa ao publicar
 cliente.on("message", (topico, payload) => {
-  const temperatura_valor = payload.toString();
-  const pir_valor = payload.toString();
-  const distancia_valor = payload.toString();
-  const sistema_valor = payload.toString();
-  exibirMensagem(topico, mensagem);
+  const mensagem = payload.toString();
+  adicionarLog(`[${topico}] ${mensagem}`, "orange");
+
+  let temperatura_valor, pir_valor, distancia_valor, sistema_valor;
+
+  try {
+    // Tenta interpretar o JSON enviado pelo Python
+    const dados = JSON.parse(mensagem);
+    temperatura_valor = dados.temperatura;
+    pir_valor = dados.pir;
+    distancia_valor = dados.distancia;
+    sistema_valor = dados.sistema;
+
+  } catch (e) {
+    // Fallback caso não seja JSON
+    const partes = mensagem.split(",");
+    temperatura_valor = partes[0];
+    pir_valor = partes[1];
+    distancia_valor = partes[2];
+    sistema_valor = partes[3];
+  }
+
+  // ── Atualização do HTML ──
+  
+  if (temperatura) {
+    temperatura.textContent = temperatura_valor + " °C";
+  }
+
+  // Lógica corrigida: distância <= 50
+  if (presenca) {
+    if (pir_valor == 1 && distancia_valor <= 50) {
+      presenca.textContent = "Detectada";
+    } else {
+      presenca.textContent = "Não detectada";
+    }
+  }
+
+  if (led && buzzer) {
+    if (sistema_valor == 1) {
+      led.textContent = "Led: Ligado";
+      buzzer.textContent = "Buzzer: Ligado"; 
+    } else {
+      led.textContent = "Led: Desligado";
+      buzzer.textContent = "Buzzer: Desligado"; 
+    }
+  }
 });
 
 // Evento: disparado quando ocorre um erro de conexão
 cliente.on("error", (err) => {
-  atualizarStatus(false, "Erro de conexão");
-  adicionarLog(`ERRO: ${err.message}`, "#ff4444");
+  adicionarLog(`ERRO: ${err.message}`, "red");
 });
 
 // Evento: disparado quando a conexão é encerrada
 cliente.on("close", () => {
-  atualizarStatus(false, "Desconectado");
-  adicionarLog("Conexão encerrada.", "#ff4444");
+  adicionarLog("Conexão encerrada.", "red");
 });
 
+// ── Controle do Botão (Enviar comandos para o Pico) ──────────────
+let sistemaLigado = true; // Começa como 'true' acompanhando o Python
 
-
-temperatura.textContent = temperatura_valor
-
-if (pir_valor == 1 && distancia_valor == 1){
-  presenca.textContent = "Detectada"
-}else{
-  presenca.textContent = "Não detectada"
-}
-
-if (sistema_valor == 1){
-  led.textContent = "Led: Ligado"
-  buzzer.textContent = "buzzer: Ligado" 
-}else{
-  led.textContent = "Led: Desligado"
-  buzzer.textContent = "buzzer: Desligado" 
+if (botaoModo) {
+  botaoModo.addEventListener("click", () => {
+    sistemaLigado = !sistemaLigado; // Inverte o estado
+    
+    if (sistemaLigado) {
+      botaoModo.textContent = "Desativar Economia";
+      modoEconomicoTexto.textContent = "Ativado";
+      cliente.publish(TOPICO_COMANDOS, "ON");
+      adicionarLog("Comando enviado: ON", "blue");
+    } else {
+      botaoModo.textContent = "Ativar Economia";
+      modoEconomicoTexto.textContent = "Desativado";
+      cliente.publish(TOPICO_COMANDOS, "OFF");
+      adicionarLog("Comando enviado: OFF", "blue");
+    }
+  });
 }

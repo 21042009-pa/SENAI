@@ -8,12 +8,6 @@
 
     <link rel="stylesheet" href="style.css" />
 
-    <!--
-        MQTT.js — biblioteca que permite usar MQTT no navegador.
-        O browser não consegue TCP puro, então ela usa WebSocket.
-        Carregada via CDN — requer internet para funcionar.
-        Para uso offline: baixe o arquivo e referencie localmente.
-    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
   </head>
 
@@ -34,7 +28,7 @@
           <article class="card">
             <h2>Temperatura</h2>
 
-            <p id="temperatura">24°C</p>
+            <p id="temperatura">--°C</p>
           </article>
 
           <article class="card">
@@ -46,15 +40,15 @@
           <article class="card">
             <h2>Presença</h2>
 
-            <p id="presenca">Detectada</p>
+            <p id="presenca">Aguardando dados...</p>
           </article>
 
           <article class="card">
             <h2>Atuadores</h2>
 
-            <p id="led">LED: desligado</p>
+            <p id="led">LED: aguardando</p>
 
-            <p id="buzzer">Buzzer: desligado</p>
+            <p id="buzzer">Buzzer: aguardando</p>
           </article>
         </section>
 
@@ -101,6 +95,6 @@
       </footer>
     </div>
 
-    <script src="script1.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
