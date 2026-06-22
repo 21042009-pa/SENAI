@@ -1,22 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("form-cadastro");
-    const mensagem = document.getElementById("mensagem");
-
-    // Proteção extra: verifica se o formulário e a div de mensagem existem na página
-    if (!form || !mensagem) {
-        console.error("Elementos essenciais não foram encontrados no HTML.");
-        return;
-    }
-
+    const form = document.getElementById("forms-cadastro");
+    
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
         // Captura dos valores dos inputs
-        const nome = document.getElementById("input-nome").value.trim();
-        const descricao = document.getElementById("input-desc").value.trim();
-        const preco = document.getElementById("input-preco").value;
-        const categoria = document.getElementById("input-categoria").value.trim();
-        const imagem = document.getElementById("input-imagem").files[0];
+        const nome = document.getElementById("nome-prato").value.trim();
+        const descricao = document.getElementById("descricao_prato").value.trim();
+        const preco = document.getElementById("preco_prato").value;
+        const categoria = document.getElementById("categoria").value.trim();
+        const imagem = document.getElementById("foto-prato").files[0];
 
         // Validação: Verifica se todos os campos obrigatórios (incluindo categoria) foram preenchidos
         if (!nome || !descricao || !preco || !categoria || !imagem) {
