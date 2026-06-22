@@ -1,9 +1,16 @@
-const express = require('express')
-const routes = require('./routes')
-const path = require("path")
-const app = express() //cria aplicações web
-app.use(express.json()) //interpreta requisiçoes json
-app.use('/', routes)
-module.exports = app
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const routes = require('./routes'); 
+const path = require('path') // Manipula os diretórios.
 
-app.use('/uploads', express.static(path.join(__dirname, "../../uploads")))
+// Middlewares globais
+app.use(cors()); // Habilita o CORS para permitir requisições do frontend
+app.use(express.json());
+
+// Registro de todas as rotas da API centralizadas
+app.use('/', routes);
+
+app.use('/uploads', express.static(path.join(__dirname, '../../uploads')))
+
+module.exports = app;

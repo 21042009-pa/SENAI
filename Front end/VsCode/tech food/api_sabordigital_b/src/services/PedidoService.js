@@ -1,4 +1,4 @@
-const PedidoRepository = require ('../repositories/pedidorepositorie')
+const PedidoRepository = require ('../repositories/PedidoRepository')
 
 class PedidoService{
     async listarPedidos(){

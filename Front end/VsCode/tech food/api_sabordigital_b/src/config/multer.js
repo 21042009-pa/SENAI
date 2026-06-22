@@ -1,24 +1,37 @@
-const express = require("express")
-const multer = require("multer")
-const path = require("path")
-const app = express()
+const multer = require('multer'); // Importação do Multer - Processa toda a operação.
+const path = require('path'); // Importação do Path - Manipula os diretórios.
 
 const storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, 'uploads/')
+    destination: (req, file, callback) => {
+        callback(null, 'uploads/')
     },
-    filename: function (req, file, cb){
-        cb(null, Date.now() + ".jpg")
+    filename: (req, file, callback) => {
+        const time = new Date().getTime(); //Capta a hora e data atual.
+        const nomeOriginal = file.originalname.replace(/\s+/g, '-');
+        const nomeArquivo = `${time}-${nomeOriginal}`; //Cria o nome do arquivo, que também atuará como ID da imagem.
+        callback(null, nomeArquivo)
     }
 })
 
-
 const upload = multer({
-  storage,
-  limits: {
-    fileSize: 10 * 1024 * 1024, 
-  },
+    storage, 
+    limits: { 
+        fileSize: 5 * 1024 * 1024, //Define o tamanho de imagem permitido.
+    },
+    fileFilter: (req, file, callback) => {
+        const tiposPermitidos = [ //Define os tipos de imagem aceitos.
+            'image/png',
+            'image/jpeg',
+            'image/jpg',
+            'image/webp',
+        ];
+        // Valida se a imagem está dentro dos tipos permitidos.
+        if(tiposPermitidos.includes(file.mimetype)){
+            callback(null, true);
+        } else {
+            callback(new Error('Tipo de arquivo inválido.'))
+        }
+    }
 });
 
-
-module.exports = upload
+module.exports = upload;

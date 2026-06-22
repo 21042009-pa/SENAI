@@ -1,19 +1,16 @@
-const mysql = require('mysql2/promise')
+const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-require('dotenv').config() //carrega variáveis do arquivo .env .
+// Pool de conexões com MySQL usando Promises
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'sabordigital',
+    port: process.env.DB_PORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
-//require() é usado para importar módulos no Node.js.
-
-const pool = mysql.createPool({ //Aqui criamos um pool de conexões com o banco/ pool é um conjunto de conexões reutilizáveis.
-host: process.env.DB_HOST,
-user: process.env.DB_USER,
-password: process.env.DB_PASSWORD,
-database: process.env.DB_NAME,
-port: process.env.DB_PORT,
-waitForConnections: true,
-connectionLimit: 10,
-queueLimit: 0
-}) // UTILIZO PARA QUE MEU PROJETO NÃO TENHA AS SENHAS DO BANCO, GARANTINDO UMA MAIOR SEGURANÇA
-
-
-module.exports = pool //outros aquivos podem utilizar esse pool
+module.exports = pool;
