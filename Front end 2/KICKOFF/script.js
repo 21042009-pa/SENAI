@@ -125,7 +125,7 @@ function renderizarCardapio(){
 function renderizarBebida(){
     containerCardapio.innerHTML = ""
 
-    cardapio.forEach(prato => {
+    cardapio.forEach(bebida => {
         const card = criarCardBebida(bebida)
         containerCardapio.appendChild(card)
     })
