@@ -1,60 +1,63 @@
-const ProdutoRepository = require ('../repositories/produtorepositorie')
+const ProdutoRepository = require('../repositories/produtorepositorie')
 
-class ProdutoService{
-    async listarProdutos(){
-        const produtos = await ProdutoRepository.listarProdutos()
-        return{
+class ProdutoService {
+    async listarProdutos() {
+        // O repositório devolve [linhas, metadados]
+        const resultado = await ProdutoRepository.listarProdutos() 
+        
+        // Pegamos apenas a posição 0, que são os produtos reais
+        const produtos = resultado[0] 
+
+        return {
             sucesso: true,
             dados: produtos,
             total: produtos.length
         }
     }
 
-    async buscarProdutoId(id){
-        if(!id || isNaN(id)){
-            throw{ status: 400,
+    async buscarProdutoPorId(id) {
+        if (!id || isNaN(id)) {
+            throw { 
+                status: 400,
                 mensagem: 'id inválido'
             }
-
         }
+
         const produto = await ProdutoRepository.buscarProdutoId(id)
 
-        if(!produto){
-            throw{
+        if (!produto || produto.length === 0) {
+            throw {
                 status: 404,
                 mensagem: 'produto não encontrado'
             }
         }
+
         return {
             sucesso: true,
             dados: produto[0]
-
         }
     }
 
-    async cadastrarProduto(dados){
-        const {nome, descricao, precos, categoria, disponivel, imagem} = dados
+    async cadastrarProduto(dados) {
+        // Recebe precoInput do body e depois converte para preco (número)
+        const { nome, descricao, preco: precoInput, categoria, disponivel, imagem } = dados
+        const preco = Number(precoInput)
 
-        const preco = Number(precos)
-
-        console.log(preco)
-        
-
-        if(!nome || !descricao || preco === undefined){
-            throw{
+        if (!nome || !descricao || precoInput === undefined) {
+            throw {
                 status: 400,
                 mensagem: "Nome, descrição e preço são obrigatórios"
             }
         }
 
-        if(typeof preco !== 'number' || preco <= 0){
-            throw{
+        if (isNaN(preco) || preco <= 0) {
+            throw {
                 status: 400,
-                mensagem: `preco deve ser um número positivo ${typeof(preco)}`
+                mensagem: "O preço deve ser um número positivo válido"
             }
         }
 
-        const novoProduto ={
+        const novoProduto = {
             nome: nome.trim(),
             descricao: descricao.trim(),
             preco,
@@ -64,58 +67,54 @@ class ProdutoService{
         }
 
         const resultado = await ProdutoRepository.cadastrarProduto(novoProduto)
-        return{
+        
+        return {
             sucesso: true,
             mensagem: 'Produto cadastrado com sucesso.',
             resultado
         }
     }
 
-    async atualizarProduto(id, dados){
-        if(!id || isNaN(id)){
-            throw{
-                status: 400, //quando não é fornecido.
+    async atualizarProduto(id, dados) {
+        if (!id || isNaN(id)) {
+            throw {
+                status: 400,
                 mensagem: 'ID inválido.'
             }
         }
 
-        const produtoId = await ProdutoRepository.buscarProdutoPorId(id)
+        // Alterado de buscarProdutoPorId para buscarProdutoId
+        const produtoId = await ProdutoRepository.buscarProdutoId(id)
 
-        if(!produtoId){
-            throw{
-                status: 404, //quando não existe, não é encontrado.
+        if (!produtoId) {
+            throw {
+                status: 404,
                 mensagem: 'Produto não encontrado.'
             }
         }
 
         const produtoAtualizado = {}
-        const {nome, descricao, preco, categoria, disponivel, imagem} = dados
+        const { nome, descricao, preco, categoria, disponivel, imagem } = dados
 
-
-        if(nome !== undefined || nome.trim() !== '') produtoAtualizado.nome = nome.trim()
-            
-        if(descricao !== undefined) produtoAtualizado.descricao = descricao.trim()
+        if (nome !== undefined && nome.trim() !== '') produtoAtualizado.nome = nome.trim()
+        if (descricao !== undefined) produtoAtualizado.descricao = descricao.trim()
         
-        if(preco !== undefined){
-            if(typeof preco !== 'number' || preco <= 0){
-                console.log(typeof(preco))
-                console.log(preco)
-                throw{
+        if (preco !== undefined) {
+            if (typeof preco !== 'number' || preco <= 0) {
+                throw {
                     status: 400,
                     mensagem: `preco deve ser um número positivo`
                 }
             }
-            produtoAtualizado.preco=preco
+            produtoAtualizado.preco = preco
         }
 
-        if(categoria !== undefined) produtoAtualizado.categoria = categoria
-        if(disponivel !== undefined) produtoAtualizado.disponivel = disponivel
-        if(imagem !== undefined) produtoAtualizado.imagem = imagem
+        if (categoria !== undefined) produtoAtualizado.categoria = categoria
+        if (disponivel !== undefined) produtoAtualizado.disponivel = disponivel
+        if (imagem !== undefined) produtoAtualizado.imagem = imagem
 
-        
-
-        if(Object.keys(produtoAtualizado.length === 0)){
-            throw{
+        if (Object.keys(produtoAtualizado).length === 0) {
+            throw {
                 status: 400,
                 mensagem: 'nenhum dado válido enviado para atualização'
             }
@@ -123,25 +122,26 @@ class ProdutoService{
 
         await ProdutoRepository.atualizarProduto(id, produtoAtualizado)
 
-        return{
+        return {
             sucesso: true,
-            mensagem: 'produto artualizado'
+            mensagem: 'produto atualizado'
         }
-
     }
 
-    async deletarProduto (id){
-        if(id || isNaN(id)){
-            throw{
+    async deletarProduto(id) {
+        // Corrigido de "id" para "!id"
+        if (!id || isNaN(id)) {
+            throw {
                 status: 400,
                 mensagem: 'id inválido'
             }
         }
 
-        const idProduto = await ProdutoRepository.buscarProdutoPorId(id)
+        // Alterado de buscarProdutoPorId para buscarProdutoId
+        const idProduto = await ProdutoRepository.buscarProdutoId(id)
 
-        if(!idProduto){
-            throw{
+        if (!idProduto) {
+            throw {
                 status: 404,
                 mensagem: 'produto não encontrado'
             }
@@ -149,12 +149,11 @@ class ProdutoService{
 
         await ProdutoRepository.apagarProduto(id)
 
-        return{
+        return {
             sucesso: true,
             mensagem: 'produto apagado'
         }
     }
-
 }
 
 module.exports = new ProdutoService()

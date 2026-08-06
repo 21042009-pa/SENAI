@@ -38,7 +38,7 @@ class ProdutoRepository{
 
 
     async apagarProduto(id){
-        await pool.query ('DELETE * FROM produto WHERE id = ?', [id])
+        await pool.query ('DELETE FROM produto WHERE id = ?', [id])
         return true
     }
 }
