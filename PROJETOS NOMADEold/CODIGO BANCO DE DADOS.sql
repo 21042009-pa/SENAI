@@ -71,3 +71,13 @@ CREATE TABLE tbl_usuario (
     cargo VARCHAR(100),
     setor VARCHAR(100)
 );
+
+ALTER TABLE tbl_produto ADD COLUMN imagem VARCHAR(255) DEFAULT NULL;
+
+RENAME TABLE tbl_produto TO produto;
+RENAME TABLE tbl_fornecedor TO fornecedor;
+RENAME TABLE tbl_usuario TO usuario;
+RENAME TABLE tbl_movimentacao_estoque TO movimentacao_estoque;
+RENAME TABLE tbl_lote TO lote;
+RENAME TABLE tbl_categoria TO categoria;
+RENAME TABLE tbl_subcategoria TO subcategoria;
