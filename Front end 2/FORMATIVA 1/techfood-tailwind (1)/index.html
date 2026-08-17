@@ -1,30 +1,40 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechFood — Sabor & Saber (Tailwind)</title>
-  <link rel="stylesheet" href="output.css">
- 
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formativa: Paula Sbrissa Gianotto (Bootstrap)</title>
+    <link rel="stylesheet" href="output.css">
 </head>
-<body>
-  <header>
-    <h1>Sabor &amp; Saber</h1>
-    <p>Cardápio digital</p>
-  </header>
 
-  <main>
-    <h2>Nosso Cardápio</h2>
+<body class="bg-gray-100">
+    <header class="bg-red-600 text-white text-center py-4 mb-4">
+        <h1 class="font-bold text-3xl"> Formativa</h1>
+        <p>Paula Sbrissa Gianotto</p>
+    </header>
 
-    <section id="cardapio">
-    </section>
-  </main>
+    <main class="max-w-6xl mx-auto px-4">
+        <h2 class="font-bold text-3xl text-center"> Cardápio </h2>
+        <section class="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <article class="p-4 bg-white rounded-xl shadow-sm h-full">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Feijoada</h3>
+                <span class="text-base block mb-4">R$30,00</span>
+            </article>
 
-  <footer>
-    <small>TechFood · Aula 1 Tailwind · Prof. Marlon</small>
-  </footer>
+            <article class="p-4 bg-white rounded-xl shadow-sm h-full">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Coxinha</h3>
+                <span class="text-base block mb-4">R$8,00</span>
+            </article>
 
-  <script src="script.js" defer></script>
+            <article class="p-4 bg-white rounded-xl shadow-sm h-full">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Brigadeiro</h3>
+                <span class="text-base block mb-4">R$2,00</span>
+            </article>
+        </section>
+    </main>
+
+    <footer class="text-center text-gray-400 py-6 mt-8">
+        <small> Formativa 1 · Paula Sbrissa Gianotto</small>
+    </footer>
 </body>
 </html>
