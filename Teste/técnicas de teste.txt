@@ -1,0 +1,11 @@
+técnicas de teste:
+- testar partes especificas do projeto
+- verificar um comportamento particular do sistema
+- cada técnica possui um propósito:
+	- Teste de regressão: voltar um passo, ou seja testar novamente funcionalidades que já funcionavam se houver mudanças no código
+	- Teste de estresse: pegar o software e coloca-lo em condições estremas para ver o seu limite
+	- Teste de performance: objetivo é verificar o sistema sobre uso normal, testar a performance como se fosse o cliente
+	- Teste de recuperação: testar o software depois de uma falha, por exemplo como o sistema recupera depois de uma queda de energia, avaliando se os dados são preservados
+	- Teste de segurança: verificar se o sistema protege corretamente os seus dados de vulnerabilidades
+	- Teste de paralelo: compara duas versões do sistema
+ 

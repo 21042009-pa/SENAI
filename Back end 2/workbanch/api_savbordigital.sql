@@ -50,6 +50,16 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedido(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produto(id) ON DELETE RESTRICT
 );
+
+CREATE TABLE IF NOT EXISTS usuario(
+id INT auto_increment primary KEY,
+nome varchar(100) not null,
+email varchar(100) not null,
+senha varchar(255) not null,
+papel enum('admin', 'cliente') default 'cliente',
+criado_em timestamp default current_timestamp,
+atualizado_em timestamp default current_timestamp on update current_timestamp
+);
  show columns from produto;
  
  alter table produto add column imagem varchar (255);
@@ -60,3 +70,4 @@ INSERT INTO produto (nome, descricao, preco, categoria, disponivel) VALUES
 ('Lasanha de Frango', 'Lasanha com frango desfiado e queijo', 42.00, 'Massa', true),
 ('Pizza Margherita', 'Pizza de mussarela, tomate e manjericão', 50.00, 'Pizza', true),
 ('Suco de Laranja', 'Suco natural 500ml', 12.00, 'Bebida', true);
+
